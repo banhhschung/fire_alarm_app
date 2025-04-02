@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "424381357419",
+    "project_id": "pccc-vconnex",
+    "storage_bucket": "pccc-vconnex.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424381357419:android:41d15667f98ea1ae7bc02e",
+        "android_client_info": {
+          "package_name": "vn.vconnex.pccc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg6JIiTmAU9C13YYIqsOLlKMIvjw__xaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

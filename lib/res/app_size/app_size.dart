@@ -1,0 +1,42 @@
+
+class AppSize{
+  static const double a0_5 = 0.5;
+  static const double a1 = 1;
+  static const double a2 = 2;
+  static const double a4 = 4;
+  static const double a6 = 6;
+  static const double a8 = 8;
+  static const double a10 = 10;
+  static const double a12 = 12;
+  static const double a14 = 14;
+  static const double a16 = 16;
+  static const double a18 = 18;
+  static const double a20 = 20;
+  static const double a24 = 24;
+  static const double a25 = 25;
+  static const double a27 = 27;
+  static const double a28 = 28;
+  static const double a30 = 30;
+  static const double a32 = 32;
+  static const double a34 = 34;
+  static const double a35 = 35;
+  static const double a38 = 38;
+  static const double a39 = 39;
+  static const double a40 = 40;
+  static const double a43 = 43;
+  static const double a44 = 44;
+  static const double a45 = 45;
+  static const double a48 = 48;
+  static const double a50 = 50;
+  static const double a54 = 54;
+  static const double a58 = 58;
+  static const double a64 = 64;
+  static const double a66 = 66;
+  static const double a70 = 70;
+  static const double a80 = 80;
+  static const double a88 = 88;
+  static const double a90 = 90;
+  static const double a100 = 100;
+  static const double a120 = 120;
+  static const double a150 = 150;
+}

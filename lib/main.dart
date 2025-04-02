@@ -1,69 +1,53 @@
+import 'dart:io';
+
 import 'package:fire_alarm_app/app.dart';
+import 'package:fire_alarm_app/bootstrap.dart';
+import 'package:fire_alarm_app/configs/enums.dart';
+import 'package:fire_alarm_app/firebase_options.dart';
+import 'package:fire_alarm_app/utils/common_utils.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  initNotifications();
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  bootstrap(env: AppEnvironment.DEVELOPMENT, builder: () => FireAlarmApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: FireAlarmApp(),
-    );
-  }
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.messageId}");
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+Future<void> initNotifications() async {
+  // Yêu cầu quyền thông báo
+  await FirebaseMessaging.instance.requestPermission(
+    provisional: true,
+    alert: true,
+    badge: true,
+    sound: true,
+  );
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  String? token;
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  if (Platform.isIOS) {
+    token = await FirebaseMessaging.instance.getAPNSToken();
+  } else if (Platform.isAndroid) {
+    token = await FirebaseMessaging.instance.getToken();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+  if (token != null) {
+    Common.printLog("Token là: $token");
   }
+
+  FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {}).onError((err) {
+    print("Lỗi khi cập nhật token: $err");
+  });
 }
